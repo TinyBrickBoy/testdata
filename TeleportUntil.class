@@ -93,15 +93,15 @@ public class TeleportUtil {
             return;
         }
 
-        // Folia: Alle Teleportationen über Entity-Scheduler
-        player.getScheduler().run(TryTpa.getInstance(), (task) -> {
-            try {
-                player.teleport(location);
-            } catch (Exception e) {
-                player.sendMessage(MessageUtil.get("Messages.Prefix") + "§cTeleportation fehlgeschlagen!");
-                TryTpa.getInstance().getLogger().warning("Teleportation failed for " + player.getName() + ": " + e.getMessage());
-            }
-        }, null);
+        // Async-Teleportation
+        player.teleportAsync(location).thenRun(() -> {
+            // Optional: Code nach erfolgreichem Teleport
+            playTeleportSound(player);
+        }).exceptionally(e -> {
+            player.sendMessage(MessageUtil.get("Messages.Prefix") + "§cTeleportation fehlgeschlagen!");
+            TryTpa.getInstance().getLogger().warning("Teleportation failed for " + player.getName() + ": " + e.getMessage());
+            return null;
+        });
     }
 
     /**
